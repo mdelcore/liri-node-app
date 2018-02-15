@@ -3,7 +3,7 @@ require("dotenv").config();
 // dependencies stored as variables
 var keys = require('./keys.js');
 var twitter = require('twitter');
-var spotify = require('spotify');
+var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require('fs');
 
@@ -44,8 +44,9 @@ function theSwitch() {
 // functions & options
 function fetchTweets() {
 	console.log('Tweets headed you way!');
+	var client = new Twitter(keys.twitter);
 	// new variable for twitter and to load keys from keys.js
-	var client = new twitter ({
+	var client = new Twitter ({
 		consumer_key: keys.twitterKeys.consumer_key,
 		consumer_secret: keys.twitterKeys.consumer_secret,
 		access_token_key: keys.twitterKeys.access_token_key,
@@ -71,8 +72,10 @@ function fetchTweets() {
 	});
 };//end fetchTweets
 
+
 function spotifyMe(){
 	console.log("This is my JAM!");
+	var spotify = new Spotify(keys.spotify);
 
 	// variable for search term
 
@@ -143,7 +146,7 @@ function followTheTextbook(){
             secondCommand = secondCommand + "+" + dataArr[i];
         };
         //run action
-		theGreatSwitch();
+		theSwitch();
 		
     	};//end else
 
@@ -151,7 +154,7 @@ function followTheTextbook(){
 
 };//end followTheTextbook
 
-theGreatSwitch();
+theSwitch();
 
 
 
