@@ -98,6 +98,37 @@ function spotifyMe(){
 	});
 };//end spotifyMe
 
+function aMovieForMe(){
+	console.log("Netflix All The Way");
+
+// launch movie search
+var searchMovie;
+if(secondCommand === undefined){
+	searchMovie = 'Me. Nobody';
+}
+else{
+	searchMovie = secondCommand;
+};
+
+var url ='http://www.omdbapi.com/?t=' + searchMovie +'&y=&plot=long&tomatoes=true&r=json';
+request(url, function(error, response, body){
+	if(!error && response.statusCode == 200){
+		console.log("Title: " + JSON.parse(body)["Title"]);
+        console.log("Year: " + JSON.parse(body)["Year"]);
+        console.log("IMDB Rating: " + JSON.parse(body)["imdbRating"]);
+        console.log("Country: " + JSON.parse(body)["Country"]);
+        console.log("Language: " + JSON.parse(body)["Language"]);
+        console.log("Plot: " + JSON.parse(body)["Plot"]);
+        console.log("Actors: " + JSON.parse(body)["Actors"]);
+        console.log("Rotten Tomatoes Rating: " + JSON.parse(body)["tomatoRating"]);
+        console.log("Rotten Tomatoes URL: " + JSON.parse(body)["tomatoURL"]);
+	}
+});
+
+};//end aMovieForMe
+
+
+
 
 
 
