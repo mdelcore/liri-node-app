@@ -1,5 +1,7 @@
+// code to read and set any environment variables with the dotenv package
+require("dotenv").config();
 // dependencies stored as variables
-var keys = require('./key.js');
+var keys = require('./keys.js');
 var twitter = require('twitter');
 var spotify = require('spotify');
 var request = require('request');
@@ -38,3 +40,80 @@ function theSwitch() {
 
 	}
 };
+
+// functions & options
+function fetchTweets() {
+	console.log('Tweets headed you way!');
+	// new variable for twitter and to load keys from keys.js
+	var client = new twitter ({
+		consumer_key: keys.twitterKeys.consumer_key,
+		consumer_secret: keys.twitterKeys.consumer_secret,
+		access_token_key: keys.twitterKeys.access_token_key,
+		access_token_secret: keys.twitterKeys.access_token_secret,
+
+	});
+
+	// parameters for twitter function
+	var parameters = {
+		screen_name: 'letsgetsocial',
+		count: 20
+	};
+
+	// to call the get method on our client variable twitter instance
+	client.get('statuses/user_timeline', parameters, function(error, tweets, response) {
+		if (!error) {
+			for (i = 0; i < tweets.length; i++) {
+				var returnedData = ('Number: ' + (i+1) + '\n' + tweets[i].created_at + '\n' + tweets[i].text + '\n');
+				console.log(returnedData);
+				console.log('--------------------------------');
+			}
+		};
+	});
+};//end fetchTweets
+
+function spotifyMe(){
+	console.log("This is my JAM!");
+
+	// variable for search term
+
+	var searchTrack;
+	if (secondCommand === undefined) {
+		searchTrack = "The Sign";
+	}
+	else {
+		searchTrack = secondCommand;
+	}
+// launch spotify search
+	spotify.search({type:'track', query:searchTrack}, function(err, data){
+		if (err) {
+			console.log('Error Occurred: ' + err);
+			return;
+		}
+		else {
+			console.log('Artist: ' + data.tracks.items[0].artists[0].name);
+			console.log('Song: ' + data.tracks.items[0].name);
+			console.log('Album: ' + data.tracks.items[0].album.name);
+			console.log('Preview Here: ' + data.tracks.items[0].preview_url);
+		}
+	});
+};//end spotifyMe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
