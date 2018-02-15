@@ -2,7 +2,7 @@
 require("dotenv").config();
 // dependencies stored as variables
 var keys = require('./keys.js');
-var twitter = require('twitter');
+var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require('fs');
@@ -31,7 +31,7 @@ function theSwitch() {
 		break;
 
 		case 'movie-this':
-		movieForMe();
+		aMovieForMe();
 		break;
 
 		case 'do-what-it-says':
@@ -43,33 +43,30 @@ function theSwitch() {
 
 // functions & options
 function fetchTweets() {
-	console.log('Tweets headed you way!');
+	console.log('Tweets headed your way!');
 	var client = new Twitter(keys.twitter);
 	// new variable for twitter and to load keys from keys.js
 	var client = new Twitter ({
-		consumer_key: keys.twitterKeys.consumer_key,
-		consumer_secret: keys.twitterKeys.consumer_secret,
-		access_token_key: keys.twitterKeys.access_token_key,
-		access_token_secret: keys.twitterKeys.access_token_secret,
+		consumer_key: keys.twitter.consumer_key,
+		consumer_secret: keys.twitter.consumer_secret,
+		access_token_key: keys.twitter.access_token_key,
+		access_token_secret: keys.twitter.access_token_secret,
 
 	});
 
 	// parameters for twitter function
 	var parameters = {
-		screen_name: 'letsgetsocial',
+		screen_name: 'cnn',
 		count: 20
 	};
 
 	// to call the get method on our client variable twitter instance
-	client.get('statuses/user_timeline', parameters, function(error, tweets, response) {
-		if (!error) {
-			for (i = 0; i < tweets.length; i++) {
-				var returnedData = ('Number: ' + (i+1) + '\n' + tweets[i].created_at + '\n' + tweets[i].text + '\n');
-				console.log(returnedData);
-				console.log('--------------------------------');
-			}
-		};
-	});
+	var params = {screen_name: 'nodejs'};
+client.get('statuses/user_timeline', params, function(error, tweets, response) {
+  if (!error) {
+    console.log(tweets);
+  }
+});
 };//end fetchTweets
 
 
@@ -102,7 +99,7 @@ function spotifyMe(){
 };//end spotifyMe
 
 function aMovieForMe(){
-	console.log("Netflix All The Way");
+	console.log("Netflix All Day!");
 
 // launch movie search
 var searchMovie;
@@ -113,7 +110,7 @@ else{
 	searchMovie = secondCommand;
 };
 
-var url ='http://www.omdbapi.com/?t=' + searchMovie +'&y=&plot=long&tomatoes=true&r=json';
+var url ='http://www.omdbapi.com/?i=tt3896198&apikey=675ade1c&' + searchMovie +'&y=&plot=long&tomatoes=true&r=json';
 request(url, function(error, response, body){
 	if(!error && response.statusCode == 200){
 		console.log("Title: " + JSON.parse(body)["Title"]);
@@ -122,7 +119,7 @@ request(url, function(error, response, body){
         console.log("Country: " + JSON.parse(body)["Country"]);
         console.log("Language: " + JSON.parse(body)["Language"]);
         console.log("Plot: " + JSON.parse(body)["Plot"]);
-        console.log("Actors: " + JSON.parse(body)["Actors"]);
+        // console.log("Actors: " + JSON.parse(breakody)["Actors"]);
         console.log("Rotten Tomatoes Rating: " + JSON.parse(body)["tomatoRating"]);
         console.log("Rotten Tomatoes URL: " + JSON.parse(body)["tomatoURL"]);
 	}
