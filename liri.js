@@ -127,6 +127,32 @@ request(url, function(error, response, body){
 
 };//end aMovieForMe
 
+function followTheTextbook(){
+	console.log("Looking at random.txt now");
+	fs.readFile("random.txt", "utf8", function(error, data) {
+	    if(error){
+     		console.log(error);
+     	}else{
+
+     	//split data, declare variables
+     	var dataArr = data.split(',');
+        userCommand = dataArr[0];
+        secondCommand = dataArr[1];
+        //if multi-word search term, add.
+        for(i=2; i<dataArr.length; i++){
+            secondCommand = secondCommand + "+" + dataArr[i];
+        };
+        //run action
+		theGreatSwitch();
+		
+    	};//end else
+
+    });//end readfile
+
+};//end followTheTextbook
+
+theGreatSwitch();
+
 
 
 
